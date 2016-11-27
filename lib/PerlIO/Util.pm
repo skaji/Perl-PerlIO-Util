@@ -39,23 +39,19 @@ __END__
 
 PerlIO::Util - A selection of general PerlIO utilities
 
-=head1 VERSION
-
-This document describes PerlIO::Util version 0.72.
-
 =for test_synopsis my($file, $scalar, $io);
 
 =head1 SYNOPSIS
 
-	use PerlIO::Util;
+    use PerlIO::Util;
 
     # utility layers
 
-	# open and flock(IN, LOCK_EX)
-	$io = PerlIO::Util->open('+< :flock', $file);
+    # open and flock(IN, LOCK_EX)
+    $io = PerlIO::Util->open('+< :flock', $file);
 
-	# open with O_CREAT | O_EXCL
-	$io = PerlIO::Util->open('+<:creat :excl', $file);
+    # open with O_CREAT | O_EXCL
+    $io = PerlIO::Util->open('+<:creat :excl', $file);
 
     my $out = PerlIO::Util->open('>:tee', 'file.txt', \$scalar, \*STDERR);
     print $out 'foo'; # print to 'file.txt', $scalar and *STDERR
