@@ -10,6 +10,7 @@ use Errno qw(EBADF EINVAL);
 use IO::Handle ();
 
 use PerlIO::Util;
+sub rc { Internals::SvREFCNT($_[0]) }
 
 ok open(my $tee, ">:scalar :tee", \my($x, $y, $z)), "open";
 
@@ -28,7 +29,7 @@ is tell($tee), length($x), 'tell == length($x)';
 
 ok close($tee), "close";
 
-is_deeply [ map{ Internals::SvREFCNT($_) } $x, $y, $z ], [1, 1, 1], "(refcnt aftere closed)";
+is_deeply [ rc($x), rc($y), rc($z) ], [1, 1, 1], "(refcnt aftere closed)";
 
 open $tee, ">:scalar", \$x;
 
@@ -46,7 +47,7 @@ is $z, "bar", "to z";
 
 ok close($tee), "close";
 
-is_deeply [ map{ Internals::SvREFCNT($_) } $x, $y, $z ], [1, 1, 1], "(refcnt aftere closed)";
+is_deeply [ rc($x), rc($y), rc($z) ], [1, 1, 1], "(refcnt aftere closed)";
 
 # push filehandle
 
